@@ -16,8 +16,10 @@ public class SimulationManager {
 	protected SumoTraciConnection conn;
 	private	Map<String, Map<String, String>> listOfEdges;
 	private	Map<String, Map<String, Object>> listOfVehicles;
+	private List<String> listOfTrafficLightIDs;
 	private MapManager managerMap;
 	private VehicleManager managerVehicle;
+	private TrafficLightManager managerTrafficLight;
 	private SharedState state;
 	private static int routeCounter = 0;
 	public boolean isRunning = false;
@@ -27,6 +29,7 @@ public class SimulationManager {
 		this.conn = new SumoTraciConnection(sumoPath, mapPath);
 		this.managerMap = new MapManager(conn);
 		this.managerVehicle = new VehicleManager(conn);
+		this.managerTrafficLight = new TrafficLightManager(conn);
 		this.state = state;
 	};
 	
@@ -47,8 +50,10 @@ public class SimulationManager {
 		listOfEdges = (Map<String, Map<String, String>>) managerMap.getEdges();
 		managerVehicle.step();
 		listOfVehicles = managerVehicle.getVehiclesData();
+		listOfTrafficLightIDs = managerTrafficLight.get_traffic_light_id_list();
 		state.lastState.set(listOfEdges);
 		state.lastVehicles.set(listOfVehicles);
+		state.lastTrafficLightIDs.set(listOfTrafficLightIDs);
 	}	
 	
 	public void InjectVehicle(String vehicleId, String vehType, int r, int g, int b, int a, double Speed, String firstEdge, String lastEdge) {
