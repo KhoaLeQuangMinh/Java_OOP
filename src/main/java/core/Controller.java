@@ -9,10 +9,10 @@ import java.util.concurrent.atomic.*;
 
 public class Controller {
 	public static void main(String[] args) {
-		SharedState state = new SharedState();
+		SimulationQueue queue = new SimulationQueue(10);
 		ExecutorService executor = Executors.newFixedThreadPool(2);
-		SimulationManager managerSimulation = new SimulationManager(state);
-		StatisticManager managerStatistic = new StatisticManager(state);
+		SimulationManager managerSimulation = new SimulationManager(queue);
+		StatisticManager managerStatistic = new StatisticManager(queue);
 		AtomicBoolean injected = new AtomicBoolean(false);
 		executor.submit(() -> {
 			try {
@@ -40,12 +40,12 @@ public class Controller {
 		executor.submit(() -> {
 			while (true) {
 	            System.out.println("THREAD 2 IS RUNNING");
-                managerStatistic.calculate();
                 try { 
+                	managerStatistic.calculate();
         			System.out.println("THREAD 2 IS SLEEPING");
                 	Thread.sleep(5000); 
                 } 
-                catch (InterruptedException e) {
+                catch (Exception e) {
                 	break; 
                 }
             }		

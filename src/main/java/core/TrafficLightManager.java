@@ -22,7 +22,7 @@ public class TrafficLightManager {
 			tls_idlist = (SumoStringList) result;
 		}
 		catch (Exception e) {
-            alertError("SUMO Traffic Light Connection Failed", e.getMessage());
+//            alertError("SUMO Traffic Light Connection Failed", e.getMessage());
         }
 		this.traffic_light_id_list.addAll(tls_idlist);
 //		for(String i: tls_idlist)
@@ -40,7 +40,7 @@ public class TrafficLightManager {
 			junction_idlist = (SumoStringList) result;
 		}
 		catch (Exception e) {
-            alertError("SUMO Traffic Light Get Controlled Junctions Failed", e.getMessage());
+//            alertError("SUMO Traffic Light Get Controlled Junctions Failed", e.getMessage());
         }
 		return junction_idlist;
 	}
@@ -52,7 +52,7 @@ public class TrafficLightManager {
 			output_list = (String) result;
 		}
 		catch (Exception e) {
-            alertError("SUMO Get Current Light State Failed", e.getMessage());
+//            alertError("SUMO Get Current Light State Failed", e.getMessage());
         }
 		return output_list;
 	}
@@ -62,7 +62,7 @@ public class TrafficLightManager {
 			this.conn.do_job_set(Trafficlight.setRedYellowGreenState(traffic_light_id, new_state));
 		}
 		catch (Exception e) {
-            alertError("SUMO Set Current Light State Failed", e.getMessage());
+//            alertError("SUMO Set Current Light State Failed", e.getMessage());
         }
 		return;
 	}
@@ -74,7 +74,7 @@ public class TrafficLightManager {
 			output = (double) result;
 		}
 		catch (Exception e) {
-            alertError("SUMO Get Current Light Phase Duration Failed", e.getMessage());
+//            alertError("SUMO Get Current Light Phase Duration Failed", e.getMessage());
         }
 		return output;
 	}
@@ -84,7 +84,7 @@ public class TrafficLightManager {
 			this.conn.do_job_set(Trafficlight.setPhaseDuration(traffic_light_id, new_phase_duration));
 		}
 		catch (Exception e) {
-            alertError("SUMO Set Current Light Phase Duration Failed", e.getMessage());
+//            alertError("SUMO Set Current Light Phase Duration Failed", e.getMessage());
         }
 	}
 	
@@ -95,15 +95,15 @@ public class TrafficLightManager {
 			output = (double) result;
 		}
 		catch (Exception e) {
-            alertError("SUMO Get Current Light State Failed", e.getMessage());
+//            alertError("SUMO Get Current Light State Failed", e.getMessage());
         }
 		return output;
 	}
 	
-	private void alertError(String title, String msg) {
-        Platform.runLater(() -> {
-            Alert a = new Alert(Alert.AlertType.ERROR, msg);
-            a.setTitle(title); a.show();
-        });
-    }
+//	private void alertError(String title, String msg) {
+//        Platform.runLater(() -> {
+//            Alert a = new Alert(Alert.AlertType.ERROR, msg);
+//            a.setTitle(title); a.show();
+//        });
+//    }
 }

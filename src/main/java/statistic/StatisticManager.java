@@ -1,20 +1,21 @@
 package statistic;
-import core.SharedState;
+import core.*;
 
 
 import java.util.concurrent.atomic.*;
 import java.util.*;
 
 public class StatisticManager {
-	private SharedState lastState;
+	private SimulationQueue queue;
 	
-	public StatisticManager(SharedState state) {
-		this.lastState = state;
+	public StatisticManager(SimulationQueue queue) {
+		this.queue = queue;
 	}
-	public void calculate() {
-		Map<String, Map<String, String>> snapshotEdge = lastState.lastState.get();
-		Map<String, Map<String, Object>> snapshotVehicle = lastState.lastVehicles.get();
-		if(snapshotEdge == null || snapshotVehicle == null) return;
+	public void calculate() throws Exception {
+		SimulationState state = queue.takeState();
+		Map<String, Map<String, String>> snapshotEdge = state.getEdges();
+		Map<String, Map<String, Object>> snapshotVehicle = state.getVehicles();
+;		if(snapshotEdge == null || snapshotVehicle == null) return;
 		for (String edgeID : snapshotEdge.keySet()) {
 		    System.out.println(edgeID);
 		    break;

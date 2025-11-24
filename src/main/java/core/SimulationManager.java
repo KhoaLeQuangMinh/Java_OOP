@@ -20,17 +20,17 @@ public class SimulationManager {
 	private MapManager managerMap;
 	private VehicleManager managerVehicle;
 	private TrafficLightManager managerTrafficLight;
-	private SharedState state;
+	private SimulationQueue queue;
 	private static int routeCounter = 0;
 	public boolean isRunning = false;
 	
 	
-	public SimulationManager(SharedState state) {
+	public SimulationManager(SimulationQueue queue) {
 		this.conn = new SumoTraciConnection(sumoPath, mapPath);
 		this.managerMap = new MapManager(conn);
 		this.managerVehicle = new VehicleManager(conn);
 		this.managerTrafficLight = new TrafficLightManager(conn);
-		this.state = state;
+		this.queue = queue;
 	};
 	
 	public void startConnection() throws Exception{
@@ -51,9 +51,9 @@ public class SimulationManager {
 		managerVehicle.step();
 		listOfVehicles = managerVehicle.getVehiclesData();
 		listOfTrafficLightIDs = managerTrafficLight.get_traffic_light_id_list();
-		state.lastState.set(listOfEdges);
-		state.lastVehicles.set(listOfVehicles);
-		state.lastTrafficLightIDs.set(listOfTrafficLightIDs);
+		
+		SimulationState state = new SimulationState(listOfEdges, listOfVehicles, listOfTrafficLightIDs);
+		queue.putState(state);
 	}	
 	
 	public void InjectVehicle(String vehicleId, String vehType, int r, int g, int b, int a, double Speed, String firstEdge, String lastEdge) {
